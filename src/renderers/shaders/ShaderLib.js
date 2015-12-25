@@ -206,6 +206,8 @@ THREE.ShaderLib = {
 
 			"#endif",
 
+			"vec4 pointlight1eye = projectionMatrix * modelViewMatrix * vec4(200, 300, 400, 1.0)",
+
 			THREE.ShaderChunk[ "common" ],
 			THREE.ShaderChunk[ "color_pars_fragment" ],
 			THREE.ShaderChunk[ "uv_pars_fragment" ],
@@ -1120,3 +1122,9 @@ THREE.ShaderLib = {
 	}
 
 };
+
+console.log('shaderLib, lambert:',
+	THREE.ShaderLib.lambert.vertexShader,
+	" ==============================\n=============================\n",
+	THREE.ShaderLib.lambert.fragmentShader
+);
