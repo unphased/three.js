@@ -23973,7 +23973,7 @@ THREE.ShaderLib = {
 
 			"#endif",
 
-			"varying vec4 vertEye;"
+			"varying vec4 vertEye;",
 
 			THREE.ShaderChunk[ "common" ],
 			THREE.ShaderChunk[ "uv_pars_vertex" ],
