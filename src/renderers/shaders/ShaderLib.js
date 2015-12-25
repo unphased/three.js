@@ -153,6 +153,8 @@ THREE.ShaderLib = {
 
 			"#endif",
 
+			"varying vec4 vertEye;"
+
 			THREE.ShaderChunk[ "common" ],
 			THREE.ShaderChunk[ "uv_pars_vertex" ],
 			THREE.ShaderChunk[ "uv2_pars_vertex" ],
@@ -188,6 +190,8 @@ THREE.ShaderLib = {
 				THREE.ShaderChunk[ "lights_lambert_vertex" ],
 				THREE.ShaderChunk[ "shadowmap_vertex" ],
 
+				"vertEye = modelViewMatrix * position;"
+
 			"}"
 
 		].join( "\n" ),
@@ -206,7 +210,10 @@ THREE.ShaderLib = {
 
 			"#endif",
 
-			"vec4 pointlight1eye = projectionMatrix * modelViewMatrix * vec4(200, 300, 400, 1.0)",
+			"uniform mat4 modelViewMatrix;",
+			"uniform mat4 projectionMatrix;",
+			"const vec4 pointlight1pos = vec4(200, 300, 400, 1.0);",
+			"vec4 pointlight1eye = projectionMatrix * modelViewMatrix * pointlight1pos;",
 
 			THREE.ShaderChunk[ "common" ],
 			THREE.ShaderChunk[ "color_pars_fragment" ],
