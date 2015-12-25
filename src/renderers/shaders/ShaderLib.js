@@ -190,7 +190,7 @@ THREE.ShaderLib = {
 				THREE.ShaderChunk[ "lights_lambert_vertex" ],
 				THREE.ShaderChunk[ "shadowmap_vertex" ],
 
-				"vertEye = modelViewMatrix * position;"
+				"vertEye = modelViewMatrix * position;",
 
 			"}"
 
