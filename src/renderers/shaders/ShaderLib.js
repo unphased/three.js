@@ -210,6 +210,7 @@ THREE.ShaderLib = {
 
 			"#endif",
 
+			"varying vec4 vertEye;",
 			"uniform mat4 modelViewMatrix;",
 			"uniform mat4 projectionMatrix;",
 			"const vec4 pointlight1pos = vec4(200, 300, 400, 1.0);",
