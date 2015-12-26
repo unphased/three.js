@@ -23974,6 +23974,7 @@ THREE.ShaderLib = {
 			"#endif",
 
 			"varying vec4 vertEye;",
+			"varying vec3 N;",
 
 			THREE.ShaderChunk[ "common" ],
 			THREE.ShaderChunk[ "uv_pars_vertex" ],
@@ -24010,7 +24011,8 @@ THREE.ShaderLib = {
 				THREE.ShaderChunk[ "lights_lambert_vertex" ],
 				THREE.ShaderChunk[ "shadowmap_vertex" ],
 
-				"vertEye = modelViewMatrix * position;",
+				"vertEye = modelViewMatrix * vec4(position, 1.0);",
+				"N = normalize(normal);",
 
 			"}"
 
@@ -24030,10 +24032,12 @@ THREE.ShaderLib = {
 
 			"#endif",
 
+			"varying vec4 vertEye;",
+			"varying vec3 N;",
+
 			"uniform mat4 modelViewMatrix;",
 			"uniform mat4 projectionMatrix;",
 			"const vec4 pointlight1pos = vec4(200, 300, 400, 1.0);",
-			"vec4 pointlight1eye = projectionMatrix * modelViewMatrix * pointlight1pos;",
 
 			THREE.ShaderChunk[ "common" ],
 			THREE.ShaderChunk[ "color_pars_fragment" ],
@@ -24052,6 +24056,10 @@ THREE.ShaderLib = {
 			THREE.ShaderChunk[ "logdepthbuf_pars_fragment" ],
 
 			"void main() {",
+
+			"vec4 pointlight1eye = modelViewMatrix * pointlight1pos;",
+			"vec3 L = normalize(pointlight1eye.xyz - vertEye.xyz);",
+			"float NdotL = dot(N, L);",
 
 			"	vec3 outgoingLight = vec3( 0.0 );",
 			"	vec4 diffuseColor = vec4( diffuse, opacity );",
