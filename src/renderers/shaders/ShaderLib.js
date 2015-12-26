@@ -218,6 +218,7 @@ THREE.ShaderLib = {
 			"uniform mat4 modelViewMatrix;",
 			"uniform mat4 projectionMatrix;",
 			"const vec4 pointlight1pos = vec4(200, 300, 400, 1.0);",
+			"const vec4 pointlight1color = vec4(0.5, 1.0, 0.2, 1.0);",
 
 			THREE.ShaderChunk[ "common" ],
 			THREE.ShaderChunk[ "color_pars_fragment" ],
@@ -238,8 +239,9 @@ THREE.ShaderLib = {
 			"void main() {",
 
 			"vec4 pointlight1eye = modelViewMatrix * pointlight1pos;",
-			"vec3 L = normalize(pointlight1eye.xyz - vertEye.xyz);",
-			"float NdotL = dot(N, L);",
+			"vec3 L1 = normalize(pointlight1eye.xyz - vertEye.xyz);",
+			"float diffuse1 = max(0.0, dot(N, L1));",
+			""
 
 			"	vec3 outgoingLight = vec3( 0.0 );",
 			"	vec4 diffuseColor = vec4( diffuse, opacity );",
