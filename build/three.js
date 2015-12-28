@@ -23974,7 +23974,7 @@ THREE.ShaderLib = {
 			"#endif",
 
 			"varying vec4 vertEye;",
-			"varying vec3 N;",
+			"varying vec3 Neye;",
 
 			THREE.ShaderChunk[ "common" ],
 			THREE.ShaderChunk[ "uv_pars_vertex" ],
@@ -23989,6 +23989,9 @@ THREE.ShaderLib = {
 			THREE.ShaderChunk[ "logdepthbuf_pars_vertex" ],
 
 			"void main() {",
+
+				"vertEye = modelViewMatrix * vec4(position, 1.0);",
+				"Neye = normalize(normalMatrix * normal);",
 
 				THREE.ShaderChunk[ "uv_vertex" ],
 				THREE.ShaderChunk[ "uv2_vertex" ],
@@ -24011,9 +24014,6 @@ THREE.ShaderLib = {
 				THREE.ShaderChunk[ "lights_lambert_vertex" ],
 				THREE.ShaderChunk[ "shadowmap_vertex" ],
 
-				"vertEye = modelViewMatrix * vec4(position, 1.0);",
-				"N = normalize(normal);",
-
 			"}"
 
 		].join( "\n" ),
@@ -24033,12 +24033,13 @@ THREE.ShaderLib = {
 			"#endif",
 
 			"varying vec4 vertEye;",
-			"varying vec3 N;",
+			"varying vec3 Neye;",
 
 			"uniform mat4 modelViewMatrix;",
 			"uniform mat4 projectionMatrix;",
-			"const vec4 pointlight1pos = vec4(200, 300, 400, 1.0);",
-			"const vec4 pointlight1color = vec4(0.5, 1.0, 0.2, 1.0);",
+			"const vec4 pointlight1pos = vec4(80, 80, 0, 1.0);",
+			"const vec3 pointlight1color = vec3(1, 0.0, 0.0);",
+			"const float attenuation = 400.0;",
 
 			THREE.ShaderChunk[ "common" ],
 			THREE.ShaderChunk[ "color_pars_fragment" ],
@@ -24060,8 +24061,10 @@ THREE.ShaderLib = {
 
 			"vec4 pointlight1eye = modelViewMatrix * pointlight1pos;",
 			"vec3 L1 = normalize(pointlight1eye.xyz - vertEye.xyz);",
-			"float diffuse1 = max(0.0, dot(N, L1));",
-			""
+			"float dist = length(pointlight1eye.xyz - vertEye.xyz);",
+			"float intensity1 = max(0.0, (attenuation - dist) / attenuation);",
+			"float diffuse1 = max(0.0, dot(Neye, L1) * intensity1);",
+			"vec3 color1 = diffuse1 * pointlight1color;",
 
 			"	vec3 outgoingLight = vec3( 0.0 );",
 			"	vec4 diffuseColor = vec4( diffuse, opacity );",
@@ -24103,6 +24106,8 @@ THREE.ShaderLib = {
 			"		outgoingLight += RECIPROCAL_PI * diffuseColor.rgb * ( vLightFront * shadowMask + totalAmbientLight ) + totalEmissiveLight;",
 
 			"	#endif",
+
+			"outgoingLight += color1;",
 
 				THREE.ShaderChunk[ "envmap_fragment" ],
 
