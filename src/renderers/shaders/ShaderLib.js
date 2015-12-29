@@ -215,11 +215,17 @@ THREE.ShaderLib = {
 			"varying vec4 vertEye;",
 			"varying vec3 Neye;",
 
+			"uniform float time;",
+
 			"uniform mat4 modelViewMatrix;",
 			"uniform mat4 projectionMatrix;",
 			"const vec4 pointlight1pos = vec4(80, 80, 0, 1.0);",
-			"const vec3 pointlight1color = vec3(1, 0.0, 0.0);",
-			"const float attenuation = 400.0;",
+			"const vec4 pointlight2pos = vec4(80, -80, 0, 1.0);",
+			"const vec4 pointlight3pos = vec4(-80, 80, 0, 1.0);",
+			"const vec4 pointlight4pos = vec4(-80, -80, 0, 1.0);",
+			"const vec3 pointlight12color = vec3(1.0, 0.0, 0.0);",
+			"const vec3 pointlight34color = vec3(0.0, 0.0, 1.0);",
+			"const float attenuation = 200.0;",
 
 			THREE.ShaderChunk[ "common" ],
 			THREE.ShaderChunk[ "color_pars_fragment" ],
@@ -240,11 +246,30 @@ THREE.ShaderLib = {
 			"void main() {",
 
 			"vec4 pointlight1eye = modelViewMatrix * pointlight1pos;",
+			"vec4 pointlight2eye = modelViewMatrix * pointlight2pos;",
+			"vec4 pointlight3eye = modelViewMatrix * pointlight3pos;",
+			"vec4 pointlight4eye = modelViewMatrix * pointlight4pos;",
 			"vec3 L1 = normalize(pointlight1eye.xyz - vertEye.xyz);",
-			"float dist = length(pointlight1eye.xyz - vertEye.xyz);",
-			"float intensity1 = max(0.0, (attenuation - dist) / attenuation);",
-			"float diffuse1 = max(0.0, dot(Neye, L1) * intensity1);",
-			"vec3 color1 = diffuse1 * pointlight1color;",
+			"vec3 L2 = normalize(pointlight2eye.xyz - vertEye.xyz);",
+			"vec3 L3 = normalize(pointlight3eye.xyz - vertEye.xyz);",
+			"vec3 L4 = normalize(pointlight4eye.xyz - vertEye.xyz);",
+			"float dist1 = length(pointlight1eye.xyz - vertEye.xyz);",
+			"float dist2 = length(pointlight2eye.xyz - vertEye.xyz);",
+			"float dist3 = length(pointlight3eye.xyz - vertEye.xyz);",
+			"float dist4 = length(pointlight4eye.xyz - vertEye.xyz);",
+			"float intensity1 = max(0.0, square((attenuation - dist1) / attenuation));",
+			"float intensity2 = max(0.0, square((attenuation - dist2) / attenuation));",
+			"float intensity3 = max(0.0, square((attenuation - dist3) / attenuation));",
+			"float intensity4 = max(0.0, square((attenuation - dist4) / attenuation));",
+			"float diffuse1 = max(0.0, dot(Neye, L1) * intensity1 * (cos(time * 2.0) * 0.5 + 0.55));",
+			"float diffuse2 = max(0.0, dot(Neye, L2) * intensity2 * (cos(time * 2.0) * 0.5 + 0.55));",
+			"float diffuse3 = max(0.0, dot(Neye, L3) * intensity3 * (cos(time * 2.0) * 0.5 + 0.55));",
+			"float diffuse4 = max(0.0, dot(Neye, L4) * intensity4 * (cos(time * 2.0) * 0.5 + 0.55));",
+			"vec3 colorPointLights = ",
+				"diffuse1 * pointlight12color + ",
+				"diffuse2 * pointlight12color + ",
+				"diffuse3 * pointlight34color + ",
+				"diffuse4 * pointlight34color;",
 
 			"	vec3 outgoingLight = vec3( 0.0 );",
 			"	vec4 diffuseColor = vec4( diffuse, opacity );",
@@ -287,7 +312,7 @@ THREE.ShaderLib = {
 
 			"	#endif",
 
-			"outgoingLight += color1;",
+			"outgoingLight += colorPointLights;",
 
 				THREE.ShaderChunk[ "envmap_fragment" ],
 

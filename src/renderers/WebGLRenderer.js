@@ -5,7 +5,10 @@
  * @author szimek / https://github.com/szimek/
  */
 
+
 THREE.WebGLRenderer = function ( parameters ) {
+
+	var start = Date.now();
 
 	console.log( 'THREE.WebGLRenderer', THREE.REVISION );
 
@@ -1825,12 +1828,17 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 		}
 
+		// console.log('wtf, p_uniforms', p_uniforms);
 		loadUniformsMatrices( p_uniforms, object );
 
 		if ( p_uniforms.modelMatrix !== undefined ) {
 
 			_gl.uniformMatrix4fv( p_uniforms.modelMatrix, false, object.matrixWorld.elements );
 
+		}
+
+		if ( p_uniforms.time !== undefined ) {
+			_gl.uniform1f( p_uniforms.time, (Date.now() - start) / 1000 );
 		}
 
 		if ( materialProperties.hasDynamicUniforms === true ) {
