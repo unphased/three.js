@@ -1170,8 +1170,8 @@ THREE.ShaderLib = {
 
 };
 
-console.log('shaderLib, lambert:',
-	THREE.ShaderLib.lambert.vertexShader,
-	" ==============================\n=============================\n",
-	THREE.ShaderLib.lambert.fragmentShader
-);
+// console.log('shaderLib, lambert:',
+// 	THREE.ShaderLib.lambert.vertexShader,
+// 	" ==============================\n=============================\n",
+// 	THREE.ShaderLib.lambert.fragmentShader
+// );
