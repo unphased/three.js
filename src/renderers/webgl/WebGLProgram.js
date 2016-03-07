@@ -52,7 +52,7 @@ THREE.WebGLProgram = ( function () {
 			var name = info.name;
 			var location = gl.getUniformLocation( program, name );
 
-			console.log("THREE.WebGLProgram: ACTIVE UNIFORM:", name);
+			// console.log("THREE.WebGLProgram: ACTIVE UNIFORM:", name);
 
 			var matches = structRe.exec( name );
 			if ( matches ) {
