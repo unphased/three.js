@@ -24990,11 +24990,11 @@ THREE.ShaderLib = {
 
 };
 
-console.log('shaderLib, lambert:',
-	THREE.ShaderLib.lambert.vertexShader,
-	" ==============================\n=============================\n",
-	THREE.ShaderLib.lambert.fragmentShader
-);
+// console.log('shaderLib, lambert:',
+// 	THREE.ShaderLib.lambert.vertexShader,
+// 	" ==============================\n=============================\n",
+// 	THREE.ShaderLib.lambert.fragmentShader
+// );
 
 // File:src/renderers/WebGLRenderer.js
 
@@ -29501,7 +29501,7 @@ THREE.WebGLProgram = ( function () {
 			var name = info.name;
 			var location = gl.getUniformLocation( program, name );
 
-			console.log("THREE.WebGLProgram: ACTIVE UNIFORM:", name);
+			// console.log("THREE.WebGLProgram: ACTIVE UNIFORM:", name);
 
 			var matches = structRe.exec( name );
 			if ( matches ) {
