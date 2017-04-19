@@ -431,11 +431,24 @@ Object.assign( Matrix3.prototype, {
 	},
 	applyToVector3Array: function( array, offset, length ) {
 
-		console.error( 'THREE.Matrix3: .applyToVector3Array() has been removed.' );
+		// console.log( 'WARNING THREE.Matrix3: .applyToVector3Array() has been 
+		//removed.' );
 
+		if ( v1 === undefined  ) v1 = new Vector3();
+		if ( offset === undefined  ) offset = 0;
+		if ( length === undefined  ) length = array.length;
+
+		for ( var i = 0, j = offset; i < length; i += 3, j += 3  ) {
+			v1.fromArray( array, j  );
+			v1.applyMatrix3( this  );
+			v1.toArray( array, j  );
+		}
+
+		return array;
 	}
 
 } );
+var v1;
 
 Object.assign( Matrix4.prototype, {
 

@@ -12387,8 +12387,6 @@ Object.assign( DirectGeometry.prototype, {
 
 } );
 
-// http://stackoverflow.com/questions/1669190/javascript-min-max-array-values/13440842#13440842
-
 function arrayMax( array ) {
 
 	var length = array.length, max = - Infinity;
@@ -41098,7 +41096,6 @@ BoxHelper.prototype.update = ( function () {
 
 var lineGeometry;
 var coneGeometry;
-
 function ArrowHelper( dir, origin, length, color, headLength, headWidth ) {
 
 	// dir is assumed to be normalized
@@ -41307,7 +41304,6 @@ var tmp = new Vector3();
 var px = new CubicPoly();
 var py = new CubicPoly();
 var pz = new CubicPoly();
-
 function CatmullRomCurve3( p /* array of Vector3 */ ) {
 
 	this.points = p || [];
@@ -41891,11 +41887,24 @@ Object.assign( Matrix3.prototype, {
 	},
 	applyToVector3Array: function( array, offset, length ) {
 
-		console.error( 'THREE.Matrix3: .applyToVector3Array() has been removed.' );
+		// console.log( 'WARNING THREE.Matrix3: .applyToVector3Array() has been 
+		//removed.' );
 
+		if ( v1 === undefined  ) v1 = new Vector3();
+		if ( offset === undefined  ) offset = 0;
+		if ( length === undefined  ) length = array.length;
+
+		for ( var i = 0, j = offset; i < length; i += 3, j += 3  ) {
+			v1.fromArray( array, j  );
+			v1.applyMatrix3( this  );
+			v1.toArray( array, j  );
+		}
+
+		return array;
 	}
 
 } );
+var v1;
 
 Object.assign( Matrix4.prototype, {
 
