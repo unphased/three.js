@@ -117,7 +117,7 @@
 
 			function createControls( camera ) {
 
-				controls = new TrackballControls( camera, renderer.domElement );
+				controls = new TrackballControls( camera, document.body );
 
 				controls.rotateSpeed = 1.0;
 				controls.zoomSpeed = 1.2;
